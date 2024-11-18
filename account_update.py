@@ -6,6 +6,7 @@ import pandas as pd
 PVWA_SERVER = "https://cyberark.example.com"
 AUTH_URL = f"{PVWA_SERVER}/PasswordVault/API/Auth/Cyberark/Logon"
 UPDATE_ACCOUNT_URL = f"{PVWA_SERVER}/PasswordVault/API/Accounts/"
+GET_ACCOUNTS_URL = f"{PVWA_SERVER}/PasswordVault/API/Accounts"
 USERNAME = "your_username"
 PASSWORD = "your_password"
 
@@ -37,6 +38,20 @@ def update_account_name(session_token, account_id, new_name):
     else:
         print(f"Failed to update account {account_id}. Status code: {response.status_code}, Response: {response.text}")
 
+# Generate a list of accounts with account ID and account name
+def get_accounts(session_token):
+    headers = {
+        "Authorization": session_token,
+        "Content-Type": "application/json"
+    }
+    response = requests.get(GET_ACCOUNTS_URL, headers=headers, verify=False)
+    if response.status_code == 200:
+        accounts = response.json()["value"]
+        account_list = [{"account_id": account["id"], "account_name": account["name"]} for account in accounts]
+        return account_list
+    else:
+        raise Exception(f"Failed to retrieve accounts. Status code: {response.status_code}, Response: {response.text}")
+
 # Main function to update multiple accounts
 def main():
     # Load account data from Excel file
@@ -53,6 +68,11 @@ def main():
             account_id = row['account_id']
             new_name = row['new_name']
             update_account_name(session_token, account_id, new_name)
+
+        # Optionally, get a list of accounts
+        accounts = get_accounts(session_token)
+        for account in accounts:
+            print(f"Account ID: {account['account_id']}, Account Name: {account['account_name']}")
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
