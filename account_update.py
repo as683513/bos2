@@ -44,13 +44,26 @@ def get_accounts(session_token):
         "Authorization": session_token,
         "Content-Type": "application/json"
     }
-    response = requests.get(GET_ACCOUNTS_URL, headers=headers, verify=False)
-    if response.status_code == 200:
-        accounts = response.json()["value"]
-        account_list = [{"account_id": account["id"], "account_name": account["name"]} for account in accounts]
-        return account_list
-    else:
-        raise Exception(f"Failed to retrieve accounts. Status code: {response.status_code}, Response: {response.text}")
+    accounts = []
+    more_data = True
+    offset = 0
+    limit = 50  # The limit value can be adjusted as needed
+
+    while more_data:
+        params = {
+            "offset": offset,
+            "limit": limit
+        }
+        response = requests.get(GET_ACCOUNTS_URL, headers=headers, params=params, verify=False)
+        if response.status_code == 200:
+            response_data = response.json()
+            accounts.extend([{"account_id": account["id"], "account_name": account["name"]} for account in response_data.get("value", [])])
+            more_data = len(response_data.get("value", [])) == limit
+            offset += limit
+        else:
+            raise Exception(f"Failed to retrieve accounts. Status code: {response.status_code}, Response: {response.text}")
+
+    return accounts
 
 # Main function to update multiple accounts
 def main():
