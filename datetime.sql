@@ -3,11 +3,10 @@ SELECT
     EndDateTimeOffset,
     CONVERT(datetime, StartDateTimeOffset) AS StartDateTime,
     CONVERT(datetime, EndDateTimeOffset) AS EndDateTime,
-    CONVERT(varchar(8), 
+    CAST(
         DATEADD(SECOND, 
             DATEDIFF(SECOND, CONVERT(datetime, StartDateTimeOffset), CONVERT(datetime, EndDateTimeOffset)), 
             0
-        ),
-        108
+        ) AS TIME
     ) AS Duration_HHMMSS
 FROM YourTable;
