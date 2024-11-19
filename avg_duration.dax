@@ -1,0 +1,7 @@
+AverageDuration = 
+VAR AvgSeconds = AVERAGE(YourTable[DurationInSeconds])
+VAR Hours = INT(AvgSeconds / 3600)
+VAR Minutes = INT(MOD(AvgSeconds, 3600) / 60)
+VAR Seconds = MOD(AvgSeconds, 60)
+RETURN
+    FORMAT(Hours, "00") & ":" & FORMAT(Minutes, "00") & ":" & FORMAT(Seconds, "00")
