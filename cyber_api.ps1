@@ -1,24 +1,32 @@
-#Load PFX
-$PfxCertPath = "C:\path\to\certificate.pfx"
-$CertPassword = ConvertTo-SecureString -String "your_cert_password" -AsPlainText -Force
-$Cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
-$Cert.Import($PfxCertPath, $CertPassword, [System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::DefaultKeySet)
+# Load the PFX certificate
+$Cert = Get-PfxCertificate -FilePath "C:\MyCert.pfx"
 
+# Define the base URL of the Central Credential Provider (CCP) API
+$BaseUrl = "https://<IIS_Server_Ip>/AIMWebService/api/Accounts"
 
+# Define the AppID and Safe name
+$AppID = "MyApp"
+$SafeName = "MySafe"
 
-#Connect
-$BaseURI = "https://your.cyberark.instance"
-$AppID = "your_app_id"
+# Construct the URI with query parameters
+$Uri = "$BaseUrl?AppID=$AppID&Safe=$SafeName"
 
-New-PASSession -BaseURI $BaseURI -Certificate $Cert -UseSharedAuthentication -AppID $AppID
+# Set the security protocol to TLS 1.2
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
+# Make the API request
+try {
+    $response = Invoke-RestMethod -Method Get -Uri $Uri -Certificate $Cert
 
-
-#Get Accounts
-$SafeName = "your_safe_name"
-$Accounts = Get-PASAccount -filter "safeName eq '$SafeName'"
-
-# Display Account Name and Account ID for the first 5 accounts
-$Accounts | Select-Object -First 5 | ForEach-Object {
-    Write-Output "Account Name: $($_.name), Account ID: $($_.id)"
+    # Check if the response contains accounts
+    if ($response -and $response.Accounts) {
+        # Iterate over each account and display the Name and AccountID
+        foreach ($account in $response.Accounts) {
+            Write-Output "Account Name: $($account.Name), Account ID: $($account.AccountID)"
+        }
+    } else {
+        Write-Output "No accounts found in the specified safe."
+    }
+} catch {
+    Write-Error "An error occurred: $_"
 }
