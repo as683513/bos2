@@ -1,0 +1,17 @@
+GreetingMessage = 
+VAR CurrentDay = WEEKDAY(TODAY(), 2) // 2 makes Monday the start of the week
+VAR CurrentTime = NOW()
+VAR CurrentHour = HOUR(CurrentTime)
+VAR UserEmail = USERPRINCIPALNAME() // Retrieves the logged-in user's email address
+VAR UserFirstName = LOOKUPVALUE('UserTable'[FirstName], 'UserTable'[Email], UserEmail)
+
+RETURN
+    IF(
+        CurrentDay = 1, // If today is Monday
+        "Happy Monday, " & UserFirstName,
+        IF(
+            CurrentHour < 12,
+            "Good Morning, " & UserFirstName,
+            "Good Afternoon, " & UserFirstName
+        )
+    )
