@@ -1,75 +1,75 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Custom table with a vector divider, date, and message in a single column",
+  "description": "Custom table with a divider, date, and message in a single column",
   "data": {
     "values": [
-      {"Type": "Divider", "Content": "---", "Row": 1},
-      {"Type": "Date", "Content": "2024-11-25", "Row": 2},
-      {"Type": "Message", "Content": "System check complete.", "Row": 3},
-      {"Type": "Divider", "Content": "---", "Row": 4},
-      {"Type": "Date", "Content": "2024-11-24", "Row": 5},
-      {"Type": "Message", "Content": "Task failed: Retry.", "Row": 6},
-      {"Type": "Divider", "Content": "---", "Row": 7},
-      {"Type": "Date", "Content": "2024-11-23", "Row": 8},
-      {"Type": "Message", "Content": "Task completed.", "Row": 9}
+      {"Row": 1, "Divider": "―", "Date": "2024-11-25", "Message": "System check complete."},
+      {"Row": 2, "Divider": "―", "Date": "2024-11-24", "Message": "Task failed: Retry."},
+      {"Row": 3, "Divider": "―", "Date": "2024-11-23", "Message": "Task completed."}
     ]
   },
-  "mark": {
-    "type": "text",
-    "baseline": "middle"
-  },
-  "encoding": {
-    "y": {
-      "field": "Row",
-      "type": "ordinal",
-      "axis": null
-    },
-    "text": {
-      "field": "Content",
-      "type": "nominal"
-    },
-    "color": {
-      "field": "Type",
-      "type": "nominal",
-      "scale": {
-        "domain": ["Divider", "Date", "Message"],
-        "range": ["gray", "black", "#333"]
+  "layer": [
+    {
+      "mark": "text",
+      "encoding": {
+        "y": {
+          "field": "Row",
+          "type": "ordinal",
+          "axis": null
+        },
+        "text": {
+          "field": "Divider",
+          "type": "nominal"
+        },
+        "fontSize": {"value": 12},
+        "color": {"value": "gray"},
+        "align": {"value": "center"},
+        "baseline": {"value": "top"},
+        "dy": {"value": -10}  // Adjust vertical spacing for divider
       }
     },
-    "fontSize": {
-      "field": "Type",
-      "type": "nominal",
-      "scale": {
-        "domain": ["Divider", "Date", "Message"],
-        "range": [12, 14, 12]
+    {
+      "mark": "text",
+      "encoding": {
+        "y": {
+          "field": "Row",
+          "type": "ordinal",
+          "axis": null
+        },
+        "text": {
+          "field": "Date",
+          "type": "nominal"
+        },
+        "fontSize": {"value": 14},
+        "fontWeight": {"value": "bold"},
+        "color": {"value": "black"},
+        "align": {"value": "center"}
       }
     },
-    "fontWeight": {
-      "field": "Type",
-      "type": "nominal",
-      "scale": {
-        "domain": ["Divider", "Date", "Message"],
-        "range": ["normal", "bold", "normal"]
+    {
+      "mark": "text",
+      "encoding": {
+        "y": {
+          "field": "Row",
+          "type": "ordinal",
+          "axis": null
+        },
+        "text": {
+          "field": "Message",
+          "type": "nominal"
+        },
+        "fontSize": {"value": 12},
+        "color": {"value": "#333"},
+        "align": {"value": "center"},
+        "baseline": {"value": "bottom"},
+        "dy": {"value": 10}  // Adjust vertical spacing for message
       }
     }
-  },
+  ],
   "config": {
-    "view": {
-      "stroke": "transparent"
-    },
+    "view": {"stroke": "transparent"},
     "text": {
-      "align": "center"
+      "lineBreak": "\n"  // Ensure text wraps nicely in the single column
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-{"Type": "Divider", "Content": "<svg><line x1='0' y1='0' x2='100' y2='0' stroke='gray' stroke-width='2'/></svg>", "Row": 1}
