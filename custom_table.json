@@ -1,0 +1,59 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Custom table with divider, date, and message",
+  "data": {
+    "values": [
+      {"Divider": "----", "Date": "2024-11-25", "Message": "System check complete."},
+      {"Divider": "----", "Date": "2024-11-24", "Message": "Task failed: Retry."},
+      {"Divider": "----", "Date": "2024-11-23", "Message": "Task completed."}
+    ]
+  },
+  "mark": "text",
+  "encoding": {
+    "y": {
+      "field": "row",
+      "type": "ordinal",
+      "axis": null
+    },
+    "text": {
+      "field": "Text",
+      "type": "nominal"
+    },
+    "color": {
+      "field": "Type",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Divider", "Date", "Message"],
+        "range": ["gray", "black", "#333"]
+      }
+    },
+    "fontWeight": {
+      "field": "Type",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Divider", "Date", "Message"],
+        "range": ["normal", "bold", "normal"]
+      }
+    },
+    "x": {
+      "field": "Type",
+      "type": "ordinal",
+      "axis": null
+    }
+  },
+  "transform": [
+    {
+      "flatten": ["Divider", "Date", "Message"],
+      "as": ["Text", "Type"]
+    },
+    {
+      "window": [{"op": "rank", "as": "row"}],
+      "groupby": ["Date"]
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": "transparent"
+    }
+  }
+}
