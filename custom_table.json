@@ -1,22 +1,31 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Custom table with divider, date, and message",
+  "description": "Custom table with a vector divider, date, and message in a single column",
   "data": {
     "values": [
-      {"Divider": "----", "Date": "2024-11-25", "Message": "System check complete."},
-      {"Divider": "----", "Date": "2024-11-24", "Message": "Task failed: Retry."},
-      {"Divider": "----", "Date": "2024-11-23", "Message": "Task completed."}
+      {"Type": "Divider", "Content": "---", "Row": 1},
+      {"Type": "Date", "Content": "2024-11-25", "Row": 2},
+      {"Type": "Message", "Content": "System check complete.", "Row": 3},
+      {"Type": "Divider", "Content": "---", "Row": 4},
+      {"Type": "Date", "Content": "2024-11-24", "Row": 5},
+      {"Type": "Message", "Content": "Task failed: Retry.", "Row": 6},
+      {"Type": "Divider", "Content": "---", "Row": 7},
+      {"Type": "Date", "Content": "2024-11-23", "Row": 8},
+      {"Type": "Message", "Content": "Task completed.", "Row": 9}
     ]
   },
-  "mark": "text",
+  "mark": {
+    "type": "text",
+    "baseline": "middle"
+  },
   "encoding": {
     "y": {
-      "field": "row",
+      "field": "Row",
       "type": "ordinal",
       "axis": null
     },
     "text": {
-      "field": "Text",
+      "field": "Content",
       "type": "nominal"
     },
     "color": {
@@ -27,6 +36,14 @@
         "range": ["gray", "black", "#333"]
       }
     },
+    "fontSize": {
+      "field": "Type",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Divider", "Date", "Message"],
+        "range": [12, 14, 12]
+      }
+    },
     "fontWeight": {
       "field": "Type",
       "type": "nominal",
@@ -34,26 +51,14 @@
         "domain": ["Divider", "Date", "Message"],
         "range": ["normal", "bold", "normal"]
       }
-    },
-    "x": {
-      "field": "Type",
-      "type": "ordinal",
-      "axis": null
     }
   },
-  "transform": [
-    {
-      "flatten": ["Divider", "Date", "Message"],
-      "as": ["Text", "Type"]
-    },
-    {
-      "window": [{"op": "rank", "as": "row"}],
-      "groupby": ["Date"]
-    }
-  ],
   "config": {
     "view": {
       "stroke": "transparent"
+    },
+    "text": {
+      "align": "center"
     }
   }
 }
