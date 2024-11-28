@@ -1,67 +1,18 @@
-{
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Custom single-column table with divider, date, and message in separate rows",
-  "data": {
-    "values": [
-      {"Type": "Divider", "Content": "―", "Row": 1},
-      {"Type": "Date", "Content": "2024-11-25", "Row": 2},
-      {"Type": "Message", "Content": "System check complete.", "Row": 3},
-      {"Type": "Divider", "Content": "―", "Row": 4},
-      {"Type": "Date", "Content": "2024-11-24", "Row": 5},
-      {"Type": "Message", "Content": "Task failed: Retry.", "Row": 6},
-      {"Type": "Divider", "Content": "―", "Row": 7},
-      {"Type": "Date", "Content": "2024-11-23", "Row": 8},
-      {"Type": "Message", "Content": "Task completed.", "Row": 9}
-    ]
-  },
-  "mark": "text",
-  "encoding": {
-    "y": {
-      "field": "Row",
-      "type": "ordinal",
-      "axis": null
-    },
-    "text": {
-      "field": "Content",
-      "type": "nominal"
-    },
-    "color": {
-      "field": "Type",
-      "type": "nominal",
-      "scale": {
-        "domain": ["Divider", "Date", "Message"],
-        "range": ["gray", "black", "#333"]
-      }
-    },
-    "fontSize": {
-      "field": "Type",
-      "type": "nominal",
-      "scale": {
-        "domain": ["Divider", "Date", "Message"],
-        "range": [10, 14, 12]
-      }
-    },
-    "fontWeight": {
-      "field": "Type",
-      "type": "nominal",
-      "scale": {
-        "domain": ["Divider", "Date", "Message"],
-        "range": ["normal", "bold", "normal"]
-      }
-    },
-    "x": {
-      "value": 0
-    },
-    "align": {
-      "value": "left"
-    }
-  },
-  "config": {
-    "view": {
-      "stroke": "transparent"
-    },
-    "text": {
-      "lineBreak": "\n"  // Ensure text wraps nicely in each row
-    }
-  }
-}
+HTMLList = 
+"<div class='sidepane-section'>
+    <h2 class='heading' style='margin-bottom:1.6rem;color:#1C1C1C;'>Upcoming</h2>
+    <ul class='list-unstyled'>" & 
+    CONCATENATEX(
+        'Table',
+        "<li class='border-bottom padding-bottom-3x margin-bottom-3x list-item'>
+            <div class='event-layout'>
+                <div class='description'>
+                    <div class='date h-8--sm padding-bottom-1x'>" & 'Table'[Date] & "</div>
+                    <div class='title'>" & 'Table'[Event Title] & "</div>
+                </div>
+            </div>
+        </li>",
+        ""
+    ) & 
+    "</ul>
+</div>"
