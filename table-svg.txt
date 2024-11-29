@@ -16,20 +16,20 @@ VAR Rows =
     CONCATENATEX(
         'Table',
         "<rect x='0' y='" & 
-        (HeaderHeight + (ROW_NUMBER() - 1) * RowHeight) & 
+        (HeaderHeight + ('Table'[RowNumber] - 1) * RowHeight) & 
         "' width='" & TableWidth & "' height='" & RowHeight & "' fill='" & 
-        IF(ROW_NUMBER() % 2 = 0, "#f9f9f9", "#ffffff") & 
+        IF('Table'[RowNumber] % 2 = 0, "#f9f9f9", "#ffffff") & 
         "' />" &
         "<line x1='0' y1='" & 
-        (HeaderHeight + ROW_NUMBER() * RowHeight) & 
+        (HeaderHeight + 'Table'[RowNumber] * RowHeight) & 
         "' x2='" & TableWidth & "' y2='" & 
-        (HeaderHeight + ROW_NUMBER() * RowHeight) & 
+        (HeaderHeight + 'Table'[RowNumber] * RowHeight) & 
         "' stroke='#cccccc' stroke-width='1' />" &
         "<text x='10' y='" & 
-        (HeaderHeight + (ROW_NUMBER() - 1) * RowHeight + 25) & 
+        (HeaderHeight + ('Table'[RowNumber] - 1) * RowHeight + 25) & 
         "' font-size='12' fill='black'>" & 'Table'[Date] & "</text>" &
         "<text x='" & Column1Width + 10 & "' y='" & 
-        (HeaderHeight + (ROW_NUMBER() - 1) * RowHeight + 25) & 
+        (HeaderHeight + ('Table'[RowNumber] - 1) * RowHeight + 25) & 
         "' font-size='12' fill='black'>" & 'Table'[Event Title] & "</text>",
         ""
     )
