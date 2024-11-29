@@ -41,3 +41,23 @@ VAR SVG =
     "</svg>"
 
 RETURN SVG
+
+
+
+
+
+
+
+
+
+
+
+
+SVGCard = 
+"data:image/svg+xml;utf8," & 
+"<svg xmlns='http://www.w3.org/2000/svg' width='400' height='100'>" &
+"<rect x='0' y='0' width='400' height='100' fill='#f9f9f9' />" &
+"<text x='10' y='20' font-size='16' fill='black'>Hello, Power BI!</text>" &
+"</svg>"
+
+
