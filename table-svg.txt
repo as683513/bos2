@@ -1,0 +1,43 @@
+SVGTable = 
+VAR HeaderHeight = 30
+VAR RowHeight = 40
+VAR TotalRows = COUNTROWS('Table')
+VAR TableWidth = 400
+VAR Column1Width = 150
+VAR Column2Width = 250
+VAR TableHeight = HeaderHeight + (RowHeight * TotalRows)
+
+VAR Header = 
+    "<rect x='0' y='0' width='" & TableWidth & "' height='" & HeaderHeight & "' fill='#d3d3d3' />" &
+    "<text x='10' y='20' font-size='14' fill='black'>Date</text>" &
+    "<text x='" & Column1Width + 10 & "' y='20' font-size='14' fill='black'>Event Title</text>"
+
+VAR Rows = 
+    CONCATENATEX(
+        'Table',
+        "<rect x='0' y='" & 
+        (HeaderHeight + (ROW_NUMBER() - 1) * RowHeight) & 
+        "' width='" & TableWidth & "' height='" & RowHeight & "' fill='" & 
+        IF(ROW_NUMBER() % 2 = 0, "#f9f9f9", "#ffffff") & 
+        "' />" &
+        "<line x1='0' y1='" & 
+        (HeaderHeight + ROW_NUMBER() * RowHeight) & 
+        "' x2='" & TableWidth & "' y2='" & 
+        (HeaderHeight + ROW_NUMBER() * RowHeight) & 
+        "' stroke='#cccccc' stroke-width='1' />" &
+        "<text x='10' y='" & 
+        (HeaderHeight + (ROW_NUMBER() - 1) * RowHeight + 25) & 
+        "' font-size='12' fill='black'>" & 'Table'[Date] & "</text>" &
+        "<text x='" & Column1Width + 10 & "' y='" & 
+        (HeaderHeight + (ROW_NUMBER() - 1) * RowHeight + 25) & 
+        "' font-size='12' fill='black'>" & 'Table'[Event Title] & "</text>",
+        ""
+    )
+
+VAR SVG = 
+    "<svg xmlns='http://www.w3.org/2000/svg' width='" & TableWidth & "' height='" & TableHeight & "'>" & 
+    Header & 
+    Rows & 
+    "</svg>"
+
+RETURN SVG
