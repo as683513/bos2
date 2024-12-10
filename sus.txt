@@ -1,0 +1,13 @@
+<svg width="300" height="100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Badge Background -->
+  <rect x="0" y="0" width="300" height="100" rx="20" fill="#28a745"/>
+
+  <!-- Badge Text -->
+  <text x="150" y="55" font-family="Arial, sans-serif" font-size="32" fill="white" text-anchor="middle" font-weight="bold">
+    Success
+  </text>
+
+  <!-- Checkmark Icon -->
+  <circle cx="50" cy="50" r="30" fill="white"/>
+  <path d="M40 50 L47 57 L60 43" stroke="#28a745" stroke-width="5" fill="none" stroke-linecap="round"/>
+</svg>
